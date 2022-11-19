@@ -22,16 +22,21 @@ function buildGrid(gridx=16, gridy=16) {
     //Remove #container's all children
     container.innerHTML = "";
     //Set columns according to given value
-    container.style.gridTemplateColumns = "repeat(" + gridx + ", 1fr)";
+    container.style.gridTemplateColumns = `repeat(${gridx}, 1fr)`;
 
-    //Create given number of divs, add border and events using loop 
+    //Create given number of divs, add style and events using loop 
     for (let i = 1; i <= gridx*gridy; i++) {
         const div = document.createElement('div');
-        // div.setAttribute('id', i);
-        div.style.border = '1px solid grey';
+        div.style.cssText = 'border: 1px solid grey; background-color: white; filter: brightness(100%);';
         container.appendChild(div);
-        div.addEventListener('mouseenter', event => event.target.style.backgroundColor = '#c0c0c0');
-        div.addEventListener('mouseleave', event => event.target.style.backgroundColor = 'rgba(0,0,0,0)');
+        //div.addEventListener('mouseenter', event => event.target.style.backgroundColor = '#c0c0c0');
+        div.addEventListener('mouseenter', event => {
+            //getting div's brightness percentage
+            let pct = +event.target.style.filter.match(/\d+/)[0];
+            if (pct == 0) {return} else pct -= 20;
+            event.target.style.filter = `brightness(${pct}%)`;
+        });
+        //div.addEventListener('mouseleave', event => event.target.style.backgroundColor = 'rgba(0,0,0,0)');
     }
 }
 
